@@ -3,8 +3,9 @@ import mysql.connector
 # Connect to the database
 conn = mysql.connector.connect(
     host='db-mysql-tor1-59654-do-user-14245628-0.b.db.ondigitalocean.com',
-    user='doadmin',
-    password='AVNS_RBdktT20Z4ZrcBGkkd_',
+    port= 25060,
+    user='heri2',
+    password='AVNS__EO7b3yqnmDshkXmeTZ',
     database='pets_images'
 )
 
