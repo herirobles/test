@@ -1,19 +1,34 @@
-import os
-import http.server
-import socketserver
+import mysql.connector
 
-from http import HTTPStatus
+try:
+    # Connect to the database
+    conn = mysql.connector.connect(
+        host='db-mysql-tor1-59654-do-user-14245628-0.b.db.ondigitalocean.com',
+        port=25060,
+        user='heri2',
+        password='AVNS__EO7b3yqnmDshkXmeTZ',
+        database='pets_images'
+    )
 
+    # Create a cursor object to execute SQL queries
+    cursor = conn.cursor()
 
-class Handler(http.server.SimpleHTTPRequestHandler):
-    def do_GET(self):
-        self.send_response(HTTPStatus.OK)
-        self.end_headers()
-        msg = 'Hello! you requested %s' % (self.path)
-        self.wfile.write(msg.encode())
+    # Execute a select query to fetch all rows from a table
+    cursor.execute('SELECT * FROM Pets')  # Replace 'Pets' with the name of your actual table
 
+    # Fetch all the rows returned by the query
+    rows = cursor.fetchall()
 
-port = int(os.getenv('PORT', 80))
-print('Listening on port %s' % (port))
-httpd = socketserver.TCPServer(('', port), Handler)
-httpd.serve_forever()
+    # Display the content of the database
+    for row in rows:
+        print(row)  # Modify this line to format and print the content as desired
+
+except mysql.connector.Error as error:
+    print("Error connecting to the database:", error)
+
+finally:
+    # Close the cursor and the database connection
+    if cursor:
+        cursor.close()
+    if conn:
+        conn.close()
